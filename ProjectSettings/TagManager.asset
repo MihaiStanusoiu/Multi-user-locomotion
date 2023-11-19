@@ -11,6 +11,10 @@ TagManager:
   - Pocket
   - ResetButton
   - Timer
+  - XRRig
+  - LeftController
+  - RightController
+  - HUD
   layers:
   - Default
   - TransparentFX
