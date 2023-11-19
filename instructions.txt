@@ -1,0 +1,2 @@
+Locomotion system: swing controllers in opposite directions on Y axis
+Reset option: the controller select button
