@@ -1,12 +1,14 @@
+using Photon.Pun;
 using Unity.Mathematics;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class ArmSwingMoveProvider : MonoBehaviour
+public class ArmSwingMoveProvider : MonoBehaviourPunCallbacks
 {
     private readonly Vector3 gravity = new(0, -9.8f, 0);
     [SerializeField] private readonly float speed = 4;
+    private PhotonView _photonView;
     private Camera camera;
     private CharacterController characterController;
 
@@ -25,6 +27,8 @@ public class ArmSwingMoveProvider : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        _photonView = transform.parent.GetComponent<PhotonView>();
+
         xrOrigin = GetComponent<LocomotionSystem>().xrOrigin;
         characterController = xrOrigin.gameObject.GetComponent<CharacterController>();
         camera = xrOrigin.Camera;
@@ -41,6 +45,8 @@ public class ArmSwingMoveProvider : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        // if (!_photonView.IsMine) return;
+
         var prevVelocity = currentVelocity;
         currentVelocity = characterController.velocity;
 
@@ -88,7 +94,7 @@ public class ArmSwingMoveProvider : MonoBehaviour
         characterController.Move(motionVector);
         // characterController.Move(gravity * Time.deltaTime);
 
-        Debug.Log($"Locomotion velocity: {swingVelocity}");
+        // Debug.Log($"Locomotion velocity: {swingVelocity}");
 
         SetPreviousPos();
     }
